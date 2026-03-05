@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gitu's Trek Adventure</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+text-align:center;
+color:white;
+overflow:hidden;
+background:linear-gradient(#020111,#3a3a52,#6b7aa1);
+}
+
+.hidden{
+display:none;
+}
+
+/* SUNRISE */
+
+.sun{
+position:absolute;
+bottom:-80px;
+left:50%;
+transform:translateX(-50%);
+width:120px;
+height:120px;
+background:orange;
+border-radius:50%;
+animation:sunrise 10s forwards;
+}
+
+@keyframes sunrise{
+0%{bottom:-120px}
+100%{bottom:120px}
+}
+
+/* MOUNTAINS */
+
+.mountains{
+position:absolute;
+bottom:0;
+width:100%;
+height:300px;
+background:
+linear-gradient(to top,#1b2735 60%,transparent),
+url('https://i.imgur.com/0Z8FQYp.png');
+background-size:cover;
+animation:mountainMove 40s linear infinite;
+}
+
+@keyframes mountainMove{
+0%{background-position:0 0}
+100%{background-position:1000px 0}
+}
+
+/* GAME AREA */
+
+#gameArea{
+position:relative;
+margin-top:200px;
+height:300px;
+}
+
+.point{
+position:absolute;
+font-size:24px;
+cursor:pointer;
+}
+
+#trekker{
+position:absolute;
+font-size:34px;
+transition:1s;
+}
+
+/* BUTTONS */
+
+button{
+padding:14px 28px;
+font-size:18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin:10px;
+}
+
+#yes{
+background:#ff4d6d;
+color:white;
+}
+
+#no{
+background:#333;
+color:white;
+position:absolute;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sun"></div>
+<div class="mountains"></div>
+
+<div id="intro">
+
+<h1>🏔️ Gitu's Himalayan Journey</h1>
+
+<p>
+You conquered incredible mountains:
+<br><br>
+🏔️ Kedarkantha<br>
+🏔️ Chandrasila
+🏔️ Kuari Pass<br>
+🏔️ Sandakphu<br>
+</p>
+
+<p>
+Let's walk through your trekking story.
+</p>
+
+<button onclick="startGame()">Start the Trek 🥾</button>
+
+</div>
+
+<div id="gameArea" class="hidden">
+
+<h2>Tap the mountains to continue your trek</h2>
+
+<div id="trekker">🥾</div>
+
+<div class="point" style="left:40px;top:120px" onclick="move(40,120)">🏔️</div>
+<div class="point" style="left:140px;top:200px" onclick="move(140,200)">🏔️</div>
+<div class="point" style="left:260px;top:140px" onclick="move(260,140)">🏔️</div>
+<div class="point" style="left:360px;top:220px" onclick="move(360,220)">🏔️</div>
+
+<p id="progress">Treks completed: 0 / 4</p>
+
+</div>
+
+<div id="question" class="hidden">
+
+<h1>🏆 Trek Completed!</h1>
+
+<h2>
+Gitu — let's meet to celebrate your trekking achievements?
+</h2>
+
+<button id="yes" onclick="celebrate()">Yes ❤️</button>
+<button id="no" onmouseover="runAway()">No 😅</button>
+
+</div>
+
+<div id="surprise" class="hidden">
+
+<h1>🎉 Surprise Gitu! 🎉</h1>
+
+<h2>
+You conquered mountains...  
+Now let's celebrate the adventure together 🏔️❤️
+</h2>
+
+<p>
+Life is like a trek —  
+and I would love to walk some trails with you.
+</p>
+
+</div>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_c8c8a73467.mp3">
+</audio>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+
+let step=0
+
+function startGame(){
+
+document.getElementById("intro").classList.add("hidden")
+document.getElementById("gameArea").classList.remove("hidden")
+
+document.getElementById("trekker").style.left="40px"
+document.getElementById("trekker").style.top="120px"
+
+}
+
+function move(x,y){
+
+let trekker=document.getElementById("trekker")
+
+trekker.style.left=x+"px"
+trekker.style.top=y+"px"
+
+step++
+
+document.getElementById("progress").innerText="Treks completed: "+step+" / 4"
+
+if(step===4){
+
+setTimeout(showQuestion,1200)
+
+}
+
+}
+
+function showQuestion(){
+
+document.getElementById("gameArea").classList.add("hidden")
+document.getElementById("question").classList.remove("hidden")
+
+document.getElementById("music").play()
+
+}
+
+function runAway(){
+
+let btn=document.getElementById("no")
+
+let x=Math.random()*(window.innerWidth-120)
+let y=Math.random()*(window.innerHeight-80)
+
+btn.style.left=x+"px"
+btn.style.top=y+"px"
+
+}
+
+function celebrate(){
+
+confetti({
+particleCount:200,
+spread:120,
+origin:{y:0.6}
+})
+
+document.getElementById("question").classList.add("hidden")
+document.getElementById("surprise").classList.remove("hidden")
+
+}
+
+</script>
+
+</body>
+</html>
