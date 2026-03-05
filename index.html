@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,20 +10,16 @@
 <style>
 
 body{
-min-height:100vh;
-padding-bottom:120px;
 margin:0;
 font-family:Arial;
 text-align:center;
 color:white;
 overflow-x:hidden;
+min-height:100vh;
 background:linear-gradient(#020111,#3a3a52,#6b7aa1);
 }
-.hidden{
-display:none;
-}
 
-/* SUNRISE */
+/* SUN */
 
 .sun{
 position:absolute;
@@ -33,12 +30,12 @@ width:120px;
 height:120px;
 background:orange;
 border-radius:50%;
-animation:sunrise 10s forwards;
+animation:sunrise 8s forwards;
 }
 
 @keyframes sunrise{
 0%{bottom:-120px}
-100%{bottom:120px}
+100%{bottom:150px}
 }
 
 /* MOUNTAINS */
@@ -47,31 +44,29 @@ animation:sunrise 10s forwards;
 position:absolute;
 bottom:0;
 width:100%;
-height:300px;
-background:
-linear-gradient(to top,#1b2735 60%,transparent),
-url('https://i.imgur.com/0Z8FQYp.png');
-background-size:cover;
-animation:mountainMove 40s linear infinite;
-}
-
-@keyframes mountainMove{
-0%{background-position:0 0}
-100%{background-position:1000px 0}
+height:280px;
+background:linear-gradient(to top,#1b2735 70%,transparent);
 }
 
 /* GAME AREA */
 
 #gameArea{
+margin-top:220px;
 position:relative;
-margin-top:200px;
-height:300px;
+height:320px;
 }
 
 .point{
 position:absolute;
-font-size:24px;
 cursor:pointer;
+text-align:center;
+font-size:22px;
+}
+
+.point span{
+display:block;
+font-size:12px;
+margin-top:4px;
 }
 
 #trekker{
@@ -83,12 +78,12 @@ transition:1s;
 /* BUTTONS */
 
 button{
-padding:14px 28px;
+padding:14px 26px;
 font-size:18px;
 border:none;
 border-radius:10px;
-cursor:pointer;
 margin:10px;
+cursor:pointer;
 }
 
 #yes{
@@ -100,6 +95,10 @@ color:white;
 background:#333;
 color:white;
 position:absolute;
+}
+
+.hidden{
+display:none;
 }
 
 </style>
@@ -115,32 +114,43 @@ position:absolute;
 <h1>🏔️ Gitu's Himalayan Journey</h1>
 
 <p>
-You conquered incredible mountains:
+You conquered incredible treks:
 <br><br>
-🏔️ Kedarkantha<br>
-🏔️ Chandrasila
-🏔️ Kuari Pass<br>
-🏔️ Sandakphu<br>
+Sandakphu<br>
+Kedarkantha<br>
+Kuari Pass<br>
+Chandrasila
 </p>
 
-<p>
-Let's walk through your trekking story.
-</p>
-
-<button onclick="startGame()">Start the Trek 🥾</button>
+<button onclick="startGame()">Start Trek 🥾</button>
 
 </div>
 
 <div id="gameArea" class="hidden">
 
-<h2>Tap the mountains to continue your trek</h2>
+<h2>Follow your trekking journey</h2>
 
 <div id="trekker">🥾</div>
 
-<div class="point" style="left:40px;top:120px" onclick="move(40,120)">🏔️</div>
-<div class="point" style="left:140px;top:200px" onclick="move(140,200)">🏔️</div>
-<div class="point" style="left:260px;top:140px" onclick="move(260,140)">🏔️</div>
-<div class="point" style="left:360px;top:220px" onclick="move(360,220)">🏔️</div>
+<div class="point" style="left:40px;top:160px" onclick="move(this,40,160)">
+🏔️
+<span>Kedarkantha</span>
+</div>
+
+<div class="point" style="left:140px;top:220px" onclick="move(this,140,220)">
+🏔️
+<span>Chandrasila</span>
+</div>
+
+<div class="point" style="left:260px;top:160px" onclick="move(this,260,160)">
+🏔️
+<span>Kuari Pass</span>
+</div>
+
+<div class="point" style="left:360px;top:230px" onclick="move(this,360,230)">
+🏔️
+<span>Sandakaphu</span>
+</div>
 
 <p id="progress">Treks completed: 0 / 4</p>
 
@@ -150,9 +160,7 @@ Let's walk through your trekking story.
 
 <h1>🏆 Trek Completed!</h1>
 
-<h2>
-Gitu — let's meet to celebrate your trekking achievements?
-</h2>
+<h2>Gitu — let's meet to celebrate your trekking achievements?</h2>
 
 <button id="yes" onclick="celebrate()">Yes ❤️</button>
 <button id="no" onmouseover="runAway()">No 😅</button>
@@ -161,16 +169,12 @@ Gitu — let's meet to celebrate your trekking achievements?
 
 <div id="surprise" class="hidden">
 
-<h1>🎉 Surprise Gitu! 🎉</h1>
+<h1>🎉 Surprise Gitu 🎉</h1>
 
-<h2>
-You conquered mountains...  
-Now let's celebrate the adventure together 🏔️❤️
-</h2>
+<h2>You conquered mountains...</h2>
 
 <p>
-Life is like a trek —  
-and I would love to walk some trails with you.
+Now let's celebrate the adventure together 🏔️❤️
 </p>
 
 </div>
@@ -190,12 +194,18 @@ function startGame(){
 document.getElementById("intro").classList.add("hidden")
 document.getElementById("gameArea").classList.remove("hidden")
 
-document.getElementById("trekker").style.left="40px"
-document.getElementById("trekker").style.top="120px"
+let trekker=document.getElementById("trekker")
+trekker.style.left="40px"
+trekker.style.top="160px"
 
 }
 
-function move(x,y){
+function move(el,x,y){
+
+if(el.dataset.clicked) return
+
+el.dataset.clicked=true
+el.style.opacity=0.5
 
 let trekker=document.getElementById("trekker")
 
@@ -207,9 +217,7 @@ step++
 document.getElementById("progress").innerText="Treks completed: "+step+" / 4"
 
 if(step===4){
-
 setTimeout(showQuestion,1200)
-
 }
 
 }
